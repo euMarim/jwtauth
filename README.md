@@ -1,73 +1,69 @@
-# Authentication API
+# Prova-POO JWT Authentication API
 
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+Este projeto é uma API RESTful desenvolvida com **Spring Boot**, implementando **autenticação JWT**, controle de acesso por roles (ADMIN e USER), e gerenciamento de usuários.
 
-This project is an API built using **Java, Java Spring, Flyway Migrations, PostgresSQL as the database, and Spring Security and JWT for authentication control.**
+## Tecnologias
 
-The API was developed for my [Youtube Tutorial](https://www.youtube.com/watch?v=5w-YCcOjPD0), to demonstrate how to configure Authenticatio and Authorization in Spring application using Spring Security.
+- Java 17
+- Spring Boot 3+
+- Spring Security
+- JWT (JSON Web Token)
+- H2 Database
+- JPA
+- Maven
 
-## Table of Contents
+## Funcionalidades
 
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Authentication](#authentication)
-- [Database](#database)
-- [Contributing](#contributing)
+- Registro de usuários (com role ADMIN ou USER)
+- Login com autenticação JWT
+- Proteção de endpoints com tokens
+- Criação, leitura, atualização e deleção de usuários
+- Acesso seguro baseado em roles
 
-## Installation
+## Como rodar o projeto
 
-1. Clone the repository:
+### Pré-requisitos
 
-```bash
-git clone https://github.com/Fernanda-Kipper/auth-api.git
+- Java 17+
+- IDE (IntelliJ)
+- Postman (ou outro cliente HTTP)
+
+### Passos
+
+1. Clone o projeto:
+
+Usando Intellij
 ```
-
-2. Install dependencies with Maven
-
-3. Install [PostgresSQL](https://www.postgresql.org/)
-
-## Usage
-
-1. Start the application with Maven
-2. The API will be accessible at http://localhost:8080
-
-
-## API Endpoints
-The API provides the following endpoints:
-
-```markdown
-GET /product - Retrieve a list of all products. (all authenticated users)
-
-POST /product - Register a new product (ADMIN access required).
-
-POST /auth/login - Login into the App
-
-POST /auth/register - Register a new user into the App
+ - Abra o IntelliJ, na aba superior procure por "Get from Version Control..."
+ - Abrira uma tela:
+              Version control: Git
+              URL: "copie o HTTPS e cole  (https://github.com/euMarim/jwtauth.git)"
+              Directory: Seleciona o ideal para você.
+ - Click "Clone".
+ - Perfeito clone do git feito.
 ```
+### Endpoints principais
 
-## Authentication
-The API uses Spring Security for authentication control. The following roles are available:
+## Autenticação
+| Método | Rota             | Descrição         |
+|--------|------------------|-------------------|
+| POST   | `/auth/register` | Cadastro de usuário (ADMIN/USER) |
+| POST   | `/auth/login`    | Login e retorno do token |
+
+## Usuários
+| Método | Rota              | Descrição                |
+|--------|-------------------|--------------------------|
+| GET    | `/user`           | Listar todos os usuários (Somente ADMIN tem acesso) |
+| GET    | `/user/{id}`      | Buscar usuário por ID    |
+| DELETE | `/user/{id}`      | Deletar usuário (Somente ADMIN tem acesso)  |
+| PUT    | `/user/edit`      | Atualizar próprio perfil |
+| PUT    | `/user/{id}`      | Atualizar qualquer usuário (Somente ADMIN tem acesso) |
+
+## 🪪 Exemplo de autenticação com token JWT
+
+1. Faça login em `/auth/login`
+2. Copie o token recebido
+3. Envie nas requisições protegidas no header:
 
 ```
-USER -> Standard user role for logged-in users.
-ADMIN -> Admin role for managing partners (registering new partners).
-```
-To access protected endpoints as an ADMIN user, provide the appropriate authentication credentials in the request header.
-
-## Database
-The project utilizes [PostgresSQL](https://www.postgresql.org/) as the database. The necessary database migrations are managed using Flyway.
-
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request to the repository.
-
-When contributing to this project, please follow the existing code style, [commit conventions](https://www.conventionalcommits.org/en/v1.0.0/), and submit your changes in a separate branch.
-
-
-
-
+Authorization: Bearer SEU_TOKEN_AQUI
